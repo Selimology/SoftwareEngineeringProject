@@ -1,9 +1,12 @@
-interface Body {
+interface Body<TypeVariable> {
   query: string
+  variables?: TypeVariable
 }
 
 export const server = {
-  fetch: async <TypeData = any,>(body: Body) => {
+  fetch: async <TypeData = any, TypeVariable = any>(
+    body: Body<TypeVariable>
+  ) => {
     const response = await fetch("/api", {
       method: "POST",
       headers: {
