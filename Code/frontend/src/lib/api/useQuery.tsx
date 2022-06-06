@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useCallback } from "react"
 import { server } from "./server"
 interface State<TypeData> {
   data: TypeData | null
@@ -6,12 +6,19 @@ interface State<TypeData> {
 export const useQuery = <TypeData = any,>(query: string) => {
   const [state, setState] = useState<State<TypeData>>({ data: null })
 
-  useEffect(() => {
+  //never run and change unless query changes
+  const fetch = useCallback(() => {
     const apiFetch = async () => {
       const { data } = await server.fetch<TypeData>({ query })
       setState({ data })
     }
     apiFetch()
   }, [query])
-  return state
+
+  // fetch on mount first time
+  useEffect(() => {
+    fetch()
+  }, [fetch])
+
+  return { ...state, refetch: fetch }
 }
