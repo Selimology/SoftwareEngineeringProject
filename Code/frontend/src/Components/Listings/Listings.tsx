@@ -1,4 +1,4 @@
-import { server, useQuery } from "../../lib/api"
+import { useMutation, useQuery } from "../../lib/api"
 import React from "react"
 import {
   DeleteListingVariables,
@@ -38,15 +38,32 @@ interface Props {
 export const Listings = ({ title }: Props) => {
   const { data, loading, refetch, error } = useQuery<ListingsData>(LISTINGS)
 
-  const deleteListing = async (id: string) => {
-    await server.fetch<DeleteListingData, DeleteListingVariables>({
-      query: DELETE_LISTING,
-      variables: {
-        id,
-      },
-    })
+  /* renaming loading and error since useQuery already has them.
+  data is not needed since we aren't presenting the deleted listing.
+   */
+  const [
+    deleteListing,
+    { loading: deleteListingLoading, error: deleteListingError },
+  ] = useMutation<DeleteListingData, DeleteListingVariables>(DELETE_LISTING)
+
+  const handleDeleteListing = async (id: string) => {
+    await deleteListing({ id })
     refetch()
   }
+
+  //if deletion is in progress, show this message
+  const deleteLoadingListingMessage = deleteListingLoading ? (
+    <div>
+      <p>Deleting...</p>
+    </div>
+  ) : null
+
+  //if deletion has an error, show this message
+  const deleteErrorListingMessage = deleteListingError ? (
+    <div>
+      <p>Error deleting listing</p>
+    </div>
+  ) : null
 
   const listings = data ? data.listings : null
 
@@ -56,7 +73,9 @@ export const Listings = ({ title }: Props) => {
         return (
           <li key={listing.id}>
             {listing.title}
-            <button onClick={() => deleteListing(listing.id)}>Delete</button>
+            <button onClick={() => handleDeleteListing(listing.id)}>
+              Delete
+            </button>
           </li>
         )
       })}
@@ -75,6 +94,13 @@ export const Listings = ({ title }: Props) => {
     <>
       <h1>{title}</h1>
       {listingList}
+      {/*
+      Since we are keeping mutation and query functions seperately,
+      only the deleted listing will give an error and previous listings
+      will not.
+      */}
+      {deleteLoadingListingMessage}
+      {deleteErrorListingMessage}
     </>
   )
 }
