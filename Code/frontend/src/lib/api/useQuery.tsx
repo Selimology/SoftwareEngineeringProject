@@ -1,5 +1,10 @@
-import React, { useState, useEffect, useCallback } from "react"
+import { useEffect, useReducer, useCallback } from "react"
 import { server } from "./server"
+
+type Action<TypeData> =
+  | { type: "FETCH" }
+  | { type: "FETCH_SUCCESS"; payload: TypeData }
+  | { type: "FETCH_ERROR" }
 
 interface QueryResult<TypeData> extends State<TypeData> {
   refetch: () => void
@@ -10,10 +15,38 @@ interface State<TypeData> {
   error: boolean
 }
 
+const reducer =
+  <TypeData,>() =>
+  (state: State<TypeData>, action: Action<TypeData>): State<TypeData> => {
+    switch (action.type) {
+      case "FETCH":
+        return {
+          ...state,
+          loading: true,
+        }
+      case "FETCH_SUCCESS":
+        return {
+          data: action.payload,
+          error: false,
+          loading: false,
+        }
+
+      case "FETCH_ERROR":
+        return {
+          ...state,
+          error: true,
+          loading: false,
+        }
+      default:
+        throw new Error()
+    }
+  }
 export const useQuery = <TypeData = any,>(
   query: string
 ): QueryResult<TypeData> => {
-  const [state, setState] = useState<State<TypeData>>({
+  const fetchReducer = reducer<TypeData>()
+  const [state, dispatch] = useReducer(fetchReducer, {
+    //inital state
     data: null,
     loading: false,
     error: false,
@@ -23,7 +56,7 @@ export const useQuery = <TypeData = any,>(
   const fetch = useCallback(() => {
     const apiFetch = async () => {
       try {
-        setState({ data: null, loading: true, error: false })
+        dispatch({ type: "FETCH" })
         /* If server fetch function is succesful, but graphql
         returns an error we deconstrcuts errors and 
         check for the condition  */
@@ -34,10 +67,10 @@ export const useQuery = <TypeData = any,>(
           throw new Error(errors[0].message)
         }
 
-        setState({ data, loading: false, error: false })
+        dispatch({ type: "FETCH_SUCCESS", payload: data })
       } catch (error) {
         //if error occurs print the error and keep loading
-        setState({ data: null, loading: false, error: true })
+        dispatch({ type: "FETCH_ERROR" })
         //using console.error since we don't know the type of error
         throw console.error(error)
       }
