@@ -2,7 +2,6 @@ import { useMutation, useQuery, gql } from "@apollo/client"
 import React from "react"
 import {
   DeleteListingVariables,
-  Listing,
   DeleteListingData,
   ListingsData,
 } from "./types"
