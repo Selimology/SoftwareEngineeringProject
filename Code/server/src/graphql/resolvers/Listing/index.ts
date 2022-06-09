@@ -14,7 +14,7 @@ export const listingResolvers: IResolvers = {
   },
 
   Mutation: {
-    deletelisting: async (
+    deleteListing: async (
       _root: undefined,
       { id }: { id: string },
       { db }: { db: Database }

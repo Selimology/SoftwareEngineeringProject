@@ -7,7 +7,7 @@ import {
   gql,
 } from "@apollo/client"
 import ReactDOM from "react-dom/client"
-import Listings from "./Components/Listings"
+import { Listings } from "./Components/Listings"
 
 const client = new ApolloClient({
   uri: "/api",
