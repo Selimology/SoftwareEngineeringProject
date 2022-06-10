@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@apollo/client": "^3.6.6",
+    "@apollo/client": "^3.6.7",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
@@ -11,7 +11,7 @@
     "@types/node": "^16.11.38",
     "@types/react": "^18.0.11",
     "@types/react-dom": "^18.0.5",
-    "graphql": "^14.7.0",
+    "graphql": "^16.5.0",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-scripts": "5.0.1",
@@ -19,8 +19,8 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "codegen:schema": "npx apollo client:download-schema --endpoint=http://localhost:2022/api --key=service:grad-project-edtunn:kJYu15IU1j-EJcf8PoadHA",
-    "codegen:generate": "npx apollo client:codegen --localSchemaFile=schema.json --includes=src/**/*.tsx  --target=typescript",
+    "codegen:schema": "npx apollo client:download-schema --endpoint=http://localhost:2022/api",
+    "codegen:generate": "npx apollo client:codegen --localSchemaFile=schema.json --includes=src/**/*.tsx --target=typescript",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -44,10 +44,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:2022",
-  "devDependencies": {
-    "apollo": "2.33.4",
-    "apollo-codegen-core": "0.40.3",
-    "apollo-language-server": "1.26.3"
-  }
+  "proxy": "http://localhost:2022"
 }

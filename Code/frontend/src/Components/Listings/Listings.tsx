@@ -1,5 +1,6 @@
 import { useMutation, useQuery, gql } from "@apollo/client"
 import React from "react"
+import { Listings as ListingsComponent } from "./Listings"
 import {
   DeleteListingVariables,
   DeleteListingData,
@@ -13,6 +14,7 @@ const DELETE_LISTING = gql`
     }
   }
 `
+
 const LISTINGS = gql`
   query Listings {
     listings {
@@ -65,7 +67,7 @@ export const Listings = ({ title }: Props) => {
 
   const listings = data ? data.listings : null
 
-  const listingList = listings ? (
+  const listingsList = listings ? (
     <ul>
       {listings.map((listing) => {
         return (
@@ -91,7 +93,7 @@ export const Listings = ({ title }: Props) => {
   return (
     <>
       <h1>{title}</h1>
-      {listingList}
+      {listingsList}
       {/*
       Since we are keeping mutation and query functions seperately,
       only the deleted listing will give an error and previous listings

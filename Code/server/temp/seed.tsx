@@ -3,6 +3,7 @@ import "dotenv/config"
 import { ObjectId } from "mongodb"
 import { connectDatabase } from "../src/database"
 import { Listing } from "../src/lib/types"
+
 const seed = async () => {
   try {
     console.log("loading")
@@ -25,9 +26,11 @@ const seed = async () => {
     for (const listing of listings) {
       await db.listings.insertOne(listing)
     }
+
     console.log("success ")
   } catch {
     throw new Error("failed to add seed")
   }
 }
+
 seed()

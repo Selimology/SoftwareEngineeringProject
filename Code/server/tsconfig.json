@@ -2,9 +2,10 @@
   "compilerOptions": {
     "module": "commonjs", //standard in node
     "target": "es6",
-    "outDir": "./build",
     "rootDir": "./src",
+    "outDir": "./build",
     "strict": true,
-    "esModuleInterop": true,
-  }
+    "esModuleInterop": true
+  },
+  "exclude": ["temp"]
 }
