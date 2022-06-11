@@ -1,11 +1,12 @@
+import "./style/Listings.css"
 import { useMutation, useQuery, gql } from "@apollo/client"
 import React from "react"
-import { Listings as ListingsComponent } from "./Listings"
+import { List, Avatar, Button } from "antd"
 import {
+  DeleteListing as DeleteListingData,
   DeleteListingVariables,
-  DeleteListingData,
-  ListingsData,
-} from "./types"
+} from "./__generated__/DeleteListing"
+import { Listings as ListingsData } from "./__generated__/Listings"
 
 const DELETE_LISTING = gql`
   mutation DeleteListing($id: ID!) {
@@ -68,18 +69,28 @@ export const Listings = ({ title }: Props) => {
   const listings = data ? data.listings : null
 
   const listingsList = listings ? (
-    <ul>
-      {listings.map((listing) => {
-        return (
-          <li key={listing.id}>
-            {listing.title}
-            <button onClick={() => handleDeleteListing(listing.id)}>
+    <List
+      itemLayout="horizontal"
+      dataSource={listings}
+      renderItem={(listing) => (
+        <List.Item
+          actions={[
+            <Button
+              type="primary"
+              onClick={() => handleDeleteListing(listing.id)}
+            >
               Delete
-            </button>
-          </li>
-        )
-      })}
-    </ul>
+            </Button>,
+          ]}
+        >
+          <List.Item.Meta
+            title={listing.title}
+            description={listing.address}
+            avatar={<Avatar src={listing.image} shape="square" size={64} />}
+          />
+        </List.Item>
+      )}
+    />
   ) : null
 
   if (error) {
@@ -92,15 +103,17 @@ export const Listings = ({ title }: Props) => {
 
   return (
     <>
-      <h1>{title}</h1>
-      {listingsList}
-      {/*
+      <div className="listings">
+        <h1>{title}</h1>
+        {listingsList}
+        {/*
       Since we are keeping mutation and query functions seperately,
       only the deleted listing will give an error and previous listings
       will not.
       */}
-      {deleteLoadingListingMessage}
-      {deleteErrorListingMessage}
+        {deleteLoadingListingMessage}
+        {deleteErrorListingMessage}
+      </div>
     </>
   )
 }
