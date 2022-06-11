@@ -1,13 +1,14 @@
-import "./style/Listings.css"
-import { useMutation, useQuery, gql } from "@apollo/client"
+import "../../style/Listings.css"
 import React from "react"
-import { List, Avatar, Button } from "antd"
+
+import { useMutation, useQuery, gql } from "@apollo/client"
 import { Alert, List, Avatar, Button, Spin } from "antd"
 import { ListingsSkeleton } from "../ListingsSkeleton"
 import {
   DeleteListing as DeleteListingData,
   DeleteListingVariables,
 } from "./__generated__/DeleteListing"
+
 import { Listings as ListingsData } from "./__generated__/Listings"
 
 const DELETE_LISTING = gql`
@@ -108,14 +109,16 @@ export const Listings = ({ title }: Props) => {
   return (
     <>
       <div className="listings">
-        <h1>{title}</h1>
-        {listingsList}
-        {/*
+        <Spin spinning={deleteListingLoading}>
           {deleteListingErrorAlert}
+          <h1>{title}</h1>
+          {listingsList}
+          {/*
       Since we are keeping mutation and query functions seperately,
       only the deleted listing will give an error and previous listings
       will not.
       */}
+        </Spin>
       </div>
     </>
   )
