@@ -2,6 +2,8 @@ import "./style/Listings.css"
 import { useMutation, useQuery, gql } from "@apollo/client"
 import React from "react"
 import { List, Avatar, Button } from "antd"
+import { Alert, List, Avatar, Button, Spin } from "antd"
+import { ListingsSkeleton } from "../ListingsSkeleton"
 import {
   DeleteListing as DeleteListingData,
   DeleteListingVariables,
@@ -94,11 +96,19 @@ export const Listings = ({ title }: Props) => {
   ) : null
 
   if (error) {
-    return <div>Something went wrong</div>
+    return (
+      <div className="listings">
+        <ListingsSkeleton title={title} error />
+      </div>
+    )
   }
 
   if (loading) {
-    return <div>Loading...</div>
+    return (
+      <div className="listings">
+        <ListingsSkeleton title={title} />
+      </div>
+    )
   }
 
   return (
