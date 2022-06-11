@@ -54,18 +54,12 @@ export const Listings = ({ title }: Props) => {
     refetch()
   }
 
-  //if deletion is in progress, show this message
-  const deleteLoadingListingMessage = deleteListingLoading ? (
-    <div>
-      <p>Deleting...</p>
-    </div>
-  ) : null
-
-  //if deletion has an error, show this message
-  const deleteErrorListingMessage = deleteListingError ? (
-    <div>
-      <p>Error deleting listing</p>
-    </div>
+  const deleteListingErrorAlert = deleteListingError ? (
+    <Alert
+      type="error"
+      message="Something went wrong with deleting"
+      className="listings__alert"
+    />
   ) : null
 
   const listings = data ? data.listings : null
@@ -117,12 +111,11 @@ export const Listings = ({ title }: Props) => {
         <h1>{title}</h1>
         {listingsList}
         {/*
+          {deleteListingErrorAlert}
       Since we are keeping mutation and query functions seperately,
       only the deleted listing will give an error and previous listings
       will not.
       */}
-        {deleteLoadingListingMessage}
-        {deleteErrorListingMessage}
       </div>
     </>
   )
