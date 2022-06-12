@@ -1,5 +1,5 @@
 {
-  "name": "grandtheftrealestate",
+  "name": "grandrealestate-server",
   "version": "0.1.0",
   "dependencies": {
     "@types/lodash.merge": "^4.6.7",
