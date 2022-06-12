@@ -24,6 +24,7 @@
   },
   "scripts": {
     "seed": "ts-node temp/seed.ts",
+    "cleardb": "ts-node temp/cleardb.ts",
     "build": "tsc -p ./",
     "start": "nodemon src/index.ts"
   }

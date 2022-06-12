@@ -66,6 +66,7 @@ const seed = async () => {
 
     const db = await connectDatabase()
 
+    //insertOne is a mongoDB method that inserts one document into the collection
     for (const listing of listings) {
       await db.listings.insertOne(listing)
     }
