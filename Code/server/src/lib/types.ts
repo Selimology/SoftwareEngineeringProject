@@ -6,6 +6,28 @@ export enum ListingType {
   Room = "room",
 }
 
+export interface BookingsIndexMonth {
+  [key: string]: boolean
+}
+
+/* 
+object of objects which are boolean
+
+January - 0 is December - 11
+
+below is 2022-January-01
+
+ex:
+"2022":{
+  "00":{
+    "01":true
+  }
+}
+
+*/
+export interface BookingsIndexYear {
+  [key: string]: BookingsIndexMonth
+}
 export interface Listing {
   _id: ObjectId
   title: string
