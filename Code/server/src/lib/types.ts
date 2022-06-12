@@ -49,6 +49,7 @@ export interface Listing {
   //to prevent someone from booking already booked listing
   bookingsIndex: BookingsIndexYear
   numberOfGuests: number
+  price: number
 }
 
 export interface User {
