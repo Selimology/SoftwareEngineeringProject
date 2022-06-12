@@ -1,7 +1,28 @@
 import { Collection, ObjectId } from "mongodb"
 
+export enum ListingType {
+  Apartment = "apartment",
+  House = "house",
+  Room = "room",
+}
+
 export interface Listing {
   _id: ObjectId
+  title: string
+  description: string
+  image: string
+  //one to one relationship with user, host has _id of user. That is why it is string
+  host: string
+  //type of listing, apartment, house, room
+  type: ListingType
+  address: string
+  country: string
+  admin: string
+  city: string
+  bookings: ObjectId[]
+  //to prevent someone from booking already booked listing
+  bookingsIndex: BookingsIndexYear
+  numberOfGuests: number
 }
 
 export interface User {
