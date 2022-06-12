@@ -1,9 +1,9 @@
 import { Collection, ObjectId } from "mongodb"
 
 export enum ListingType {
-  Apartment = "apartment",
-  House = "house",
-  Room = "room",
+  Apartment = "APARTMENT",
+  House = "HOUSE",
+  Room = "ROOM",
 }
 
 export interface BookingsIndexMonth {
@@ -23,10 +23,16 @@ ex:
     "01":true
   }
 }
-
 */
+
+//represents a single object of for a single year.
 export interface BookingsIndexYear {
   [key: string]: BookingsIndexMonth
+}
+
+/* represent different objects for different years. Which each year object, will have different objects for months. Each month object will have boolean values for each day.  */
+export interface BookingsIndex {
+  [key: string]: BookingsIndexYear
 }
 export interface Listing {
   _id: ObjectId
