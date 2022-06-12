@@ -12,9 +12,7 @@ export interface BookingsIndexMonth {
 
 /* 
 object of objects which are boolean
-
 January - 0 is December - 11
-
 below is 2022-January-01
 
 ex:
@@ -72,6 +70,12 @@ export interface User {
 }
 export interface Booking {
   _id: ObjectId
+  //one to one relationship
+  listing: ObjectId
+  //one to one relationship, user ID that will return is string
+  tenant: string
+  checkInDate: string
+  checkOutDate: string
 }
 
 export interface Database {
