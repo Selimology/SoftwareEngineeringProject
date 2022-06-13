@@ -6,6 +6,14 @@ export enum ListingType {
   Room = "ROOM",
 }
 
+export interface Viewer {
+  _id?: string
+  token?: string
+  avatar?: string
+  walletId?: string
+  didRequest: boolean
+}
+
 export interface BookingsIndexMonth {
   [key: string]: boolean
 }
@@ -58,7 +66,7 @@ export interface User {
   //store logging session
   token: string
   name: string
-  picture: string
+  avatar: string
   //email
   contact: string
   //walletID if undefined, it means they didn't link to a wallet yet

@@ -47,7 +47,7 @@ const users: User[] = [
     _id: "5f3e8f8f8f9e8b0f8f8f8f8f",
     token: "token_************",
     name: "Kamil Ertekin",
-    picture:
+    avatar:
       "https://www.mensjournal.com/wp-content/uploads/mf/low_body_fat_muscular_muscle_abs_chest_main.jpg?w=1188&h=675&crop=1&quality=86&strip=all",
     contact: "kertekin2018@gmail.com",
     walletId: "acct_************",
