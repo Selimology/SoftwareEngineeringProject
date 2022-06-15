@@ -1,13 +1,42 @@
 import { IResolvers } from "@graphql-tools/utils"
 import { Viewer, Database, User } from "../../../lib/types"
+import { Response, Request } from "express"
 import { Google } from "../../../lib/api"
 import { LogInArgs } from "./types"
 import crypto from "crypto"
 
+const cookieOptions = {
+  httpOnly: true,
+  sameSite: true,
+  signed: true,
+  secure: process.env.NODE_ENV === "development" ? false : true,
+}
+
+async function logInViaCookie(
+  token: string,
+  db: Database,
+  req: Request,
+  res: Response
+): Promise<User | null> {
+  const updateReq = await db.users.findOneAndUpdate(
+    { _id: req.signedCookies.viewer },
+    { $set: { token } },
+    { returnDocument: "after" }
+  )
+  const viewer = updateReq.value
+
+  if (!viewer) {
+    res.clearCookie("viewer", cookieOptions)
+  }
+
+  return viewer
+}
+
 const logInViaGoogle = async (
   code: string,
   token: string,
-  db: Database
+  db: Database,
+  res: Response
 ): Promise<User | null> => {
   const { user } = await Google.logIn(code)
 
@@ -77,6 +106,12 @@ const logInViaGoogle = async (
     })
     viewer = await db.users.findOne({ _id: insertResult.insertedId })
   }
+
+  res.cookie("viewer", userId, {
+    ...cookieOptions,
+    //expiration to 1 year, in milliseconds
+    maxAge: 365 * 24 * 60 * 60 * 1000,
+  })
   return viewer
 }
 
@@ -94,15 +129,17 @@ export const viewerResolvers: IResolvers = {
     //sign in with google auth url or cookie session
     logIn: async (
       _root: undefined,
-      { input }: LogInArgs,
-      { db }: { db: Database }
-    ) => {
+      { login }: LogInArgs,
+      { db, req, res }: { db: Database; req: Request; res: Response }
+    ): Promise<Viewer> => {
       try {
-        const code = input ? input.code : null
+        const code = login ? login.code : null
         //create a randomly generated 16 character string when user logs in
         const token = crypto.randomBytes(16).toString("hex")
 
-        const viewer = code ? await logInViaGoogle(code, token, db) : undefined
+        const viewer = code
+          ? await logInViaGoogle(code, token, db, res)
+          : await logInViaCookie(token, db, req, res)
 
         //client side will see the didRequest, but will see no user information exists
         if (!viewer) {
@@ -113,15 +150,20 @@ export const viewerResolvers: IResolvers = {
           _id: viewer._id,
           token: viewer.token,
           avatar: viewer.avatar,
-          hasConnectedWallet: viewer.walletId,
+          walletId: viewer.walletId,
           didRequest: true,
         }
       } catch (error) {
         throw new Error(`Failed Login ${error}`)
       }
     },
-    logOut: (): Viewer => {
+    logOut: (
+      _root: undefined,
+      _args: unknown,
+      { res }: { res: Response }
+    ): Viewer => {
       try {
+        res.clearCookie("viewer", cookieOptions)
         return { didRequest: true }
       } catch (error) {
         throw new Error(`Failed to log out ${error}`)
