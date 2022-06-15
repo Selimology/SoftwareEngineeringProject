@@ -10,26 +10,24 @@ const auth = new google.auth.OAuth2(
 
 export const Google = {
   authUrl: auth.generateAuthUrl({
-    //// 'online' (default) or 'offline' (gets refresh_token)
     access_type: "online",
     scope: [
       "https://www.googleapis.com/auth/userinfo.email",
       "https://www.googleapis.com/auth/userinfo.profile",
     ],
   }),
-  //request to google, to get users access token
-  logIn: async (code: string) => {
-    /*     token below contains both access and refresh tokens
-    not storing tokens, as we aren't using them for anything other than logging in */
-    const { tokens } = await auth.getToken(code)
-    auth.setCredentials(tokens)
+  logIn: logInHandler,
+}
 
-    const { data } = await google.people({ version: "v1", auth }).people.get({
-      resourceName: "people/me",
-      personFields: "emailAddresses,names,photos",
-    })
+async function logInHandler(code: string) {
+  const { tokens } = await auth.getToken(code)
 
-    //return an object that contains the user's email and name,photos
-    return { user: data }
-  },
+  auth.setCredentials(tokens)
+
+  const { data } = await google.people({ version: "v1", auth }).people.get({
+    resourceName: "people/me",
+    personFields: "emailAddresses,names,photos",
+  })
+
+  return { user: data }
 }
