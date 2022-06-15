@@ -206,7 +206,7 @@
 }
 .home {
   padding: 60px 120px;
-  background-image: url(/static/media/map-background.c21df147.jpg);
+  /* background-image: url(/static/media/map-background.c21df147.jpg); */
   background-repeat: no-repeat;
   background-position: 10% 0;
 }
@@ -492,6 +492,10 @@
   width: 450px;
   text-align: center;
   padding: 10px 0 20px;
+  border: 3px solid #e2e3e4;
+}
+.log-in-card-image-img {
+  height: 100%;
 }
 .log-in-card__intro-title.ant-typography,
 .log-in-card__intro-title.ant-typography + h3.ant-typography {

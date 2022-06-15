@@ -22,7 +22,7 @@
   },
   "scripts": {
     "codegen:schema": "npx apollo client:download-schema --endpoint=http://localhost:2022/api",
-    "codegen:generate": "npx apollo client:codegen --localSchemaFile=schema.json --includes=src/**/*.tsx --target=typescript",
+    "codegen:generate": "npx apollo client:codegen --localSchemaFile=schema.json --includes=src/**/*.ts --globalTypesFile=./src/lib/graphql/globalTypes.ts --target=typescript",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
