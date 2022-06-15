@@ -14,10 +14,6 @@ export interface Viewer {
   didRequest: boolean
 }
 
-export interface BookingsIndexMonth {
-  [key: string]: boolean
-}
-
 /* 
 object of objects which are boolean
 January - 0 is December - 11
@@ -30,6 +26,10 @@ ex:
   }
 }
 */
+
+export interface BookingsIndexMonth {
+  [key: string]: boolean
+}
 
 //represents a single object of for a single year.
 export interface BookingsIndexYear {
@@ -85,8 +85,8 @@ export interface Booking {
   listing: ObjectId
   //one to one relationship, user ID that will return is string
   tenant: string
-  checkInDate: string
-  checkOutDate: string
+  checkIn: string
+  checkOut: string
 }
 
 export interface Database {
