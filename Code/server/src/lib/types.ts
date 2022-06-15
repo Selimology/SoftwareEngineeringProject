@@ -58,6 +58,7 @@ export interface Listing {
   bookingsIndex: BookingsIndexYear
   numberOfGuests: number
   price: number
+  authorized?: boolean
 }
 
 export interface User {
@@ -76,6 +77,7 @@ export interface User {
   bookings: ObjectId[]
   //one to many relationship - one user will hold references to many listings
   listings: ObjectId[]
+  authorized?: boolean
 }
 export interface Booking {
   _id: ObjectId
