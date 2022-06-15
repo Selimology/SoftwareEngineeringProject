@@ -17,7 +17,7 @@ export const userResolvers: IResolvers = {
   },
   User: {
     id: getUserId,
-    hasWallet: userHasWallet,
+    hasConnectedWallet: userHasWallet,
     income: getUserIncome,
     bookings: getUserBookings,
     listings: getUserListings,
