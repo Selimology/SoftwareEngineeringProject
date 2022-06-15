@@ -15,15 +15,12 @@ export function UserProfile({ user, viewerIsUser }: UserProfileProps) {
       <Divider />
       <div className="user-profile__details">
         <Title level={4}>Additional Details</Title>
-        <Paragraph>
-          Interested in becoming a TinyHouse host? Register with your Stripe
-          account!
-        </Paragraph>
+        <Paragraph>Interested in becoming a grand real estate agent?</Paragraph>
         <Button type="primary" className="user-profile__details-cta">
           Connect with Stripe!
         </Button>
         <Paragraph type="secondary">
-          TinyHouse uses{" "}
+          Grand Real Estate uses{" "}
           <a
             href="https://stripe.com/en-US/connect"
             target="_blank"
