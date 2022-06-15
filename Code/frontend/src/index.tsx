@@ -1,6 +1,7 @@
-import React from "react"
+import React, { useState } from "react"
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client"
 import ReactDOM from "react-dom/client"
+import { Viewer } from "./lib/types"
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import { Layout } from "antd"
 import {
@@ -19,7 +20,17 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 })
 
+const initialViewer: Viewer = {
+  id: null,
+  token: null,
+  avatar: null,
+  hasConnectedWallet: null,
+  didRequest: false,
+}
+
 const App = () => {
+  const [viewer, setViewer] = useState<Viewer>(initialViewer)
+
   return (
     <Router>
       <Layout id="app">
@@ -31,7 +42,7 @@ const App = () => {
           {/* Property Information */}
           <Route path="/listing/:id" element={<Listing />} />
 
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<Login setViewer={setViewer} />} />
           {/* All the Properties */}
           <Route path="/listings/location?" element={<Listings />} />
           {/* 404 NOT FOUND */}
