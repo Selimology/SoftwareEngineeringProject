@@ -3,7 +3,7 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client"
 import ReactDOM from "react-dom/client"
 import { Viewer } from "./lib/types"
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
-import { Layout } from "antd"
+import { Layout, Affix } from "antd"
 import {
   Listings,
   Home,
@@ -12,6 +12,7 @@ import {
   NotFound,
   User,
   Login,
+  AppHeader,
 } from "./Components"
 import "./style/index.css"
 
@@ -34,6 +35,10 @@ const App = () => {
   return (
     <Router>
       <Layout id="app">
+        {/* fix position */}
+        <Affix offsetTop={0} className="app__affix-header">
+          <AppHeader viewer={viewer} setViewer={setViewer} />
+        </Affix>
         <Routes>
           <Route path="/" element={<Home />} />
 
