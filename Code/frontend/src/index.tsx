@@ -3,8 +3,10 @@ import {
   ApolloClient,
   InMemoryCache,
   ApolloProvider,
+  createHttpLink,
   useMutation,
 } from "@apollo/client"
+import { setContext } from "@apollo/client/link/context"
 import ReactDOM from "react-dom/client"
 import { Viewer } from "./lib/types"
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
@@ -29,8 +31,22 @@ import {
 
 import "./style/index.css"
 
-const client = new ApolloClient({
+const httpLink = createHttpLink({
   uri: "/api",
+})
+
+const authLink = setContext((_, { headers }) => {
+  const token = sessionStorage.getItem("token")
+  return {
+    headers: {
+      ...headers,
+      "X-CSRF-TOKEN": token || "",
+    },
+  }
+})
+
+const client = new ApolloClient({
+  link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
 })
 
@@ -81,6 +97,7 @@ const App = () => {
   return (
     <Router>
       <Layout id="app">
+        {logInErrorBannerElement}
         {/* fix position */}
         <Affix offsetTop={0} className="app__affix-header">
           <AppHeader viewer={viewer} setViewer={setViewer} />

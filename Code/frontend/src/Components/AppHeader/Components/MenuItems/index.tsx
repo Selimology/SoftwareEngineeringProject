@@ -23,6 +23,7 @@ export function MenuItems({ viewer, setViewer }: MenuItemsProps) {
     onCompleted: (data) => {
       if (data && data.logOut) {
         setViewer(data.logOut)
+        //clear session when logout
         sessionStorage.removeItem("token")
         displaySuccessNotification("You've successfully logged out!")
       }
