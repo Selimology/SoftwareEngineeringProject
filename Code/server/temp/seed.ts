@@ -1,6 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-require("dotenv").config();
-
+import "dotenv/config";
 import { ObjectId } from "mongodb";
 import { connectDatabase } from "../src/database";
 import { Listing, ListingType, User } from "../src/lib/types";
@@ -74,8 +72,8 @@ const seed = async () => {
         }
 
         console.log("[seed] : Successfully seeded the database!");
-    } catch {
-        throw new Error("failed to seed database");
+    } catch (error) {
+        throw new Error(`failed to seed database ${error}`);
     }
 };
 
