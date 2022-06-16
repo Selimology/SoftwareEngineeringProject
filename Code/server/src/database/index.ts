@@ -1,18 +1,19 @@
-import { MongoClient } from "mongodb"
-import { Booking, Listing, User } from "../lib/types"
+import { MongoClient } from "mongodb";
+import { Database, Booking, User, Listing } from "../lib/types";
 
-const url = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_USER_PASSWORD}@${process.env.DB_CLUSTER}.mongodb.net/?retryWrites=true&w=majority`
+const user = process.env.DB_USER;
+const userPassword = process.env.DB_USER_PASSWORD;
+const cluster = process.env.DB_CLUSTER;
+const url = `mongodb+srv://${user}:${userPassword}@${cluster}.mongodb.net/test?retryWrites=true&w=majority`;
 
-export const connectDatabase = async () => {
-  const client = new MongoClient(url)
-  await client.connect()
-  const db = client.db("main")
+export async function connectDatabase(): Promise<Database> {
+    const client = await MongoClient.connect(url);
 
-  return {
-    //"listings", "users" are collections. We access them through db.collection("name")
-    listings: db.collection<Listing>("listings"),
-    //using generics we ensure returned type is of type User
-    users: db.collection<User>("users"),
-    bookings: db.collection<Booking>("bookings"),
-  }
+    const db = client.db("main");
+
+    return {
+        bookings: db.collection<Booking>("bookings"),
+        listings: db.collection<Listing>("listings"),
+        users: db.collection<User>("users"),
+    };
 }

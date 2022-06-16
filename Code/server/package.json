@@ -1,34 +1,52 @@
 {
-  "name": "grandrealestate-server",
-  "version": "0.1.0",
-  "dependencies": {
-    "@types/lodash.merge": "^4.6.7",
-    "apollo-server-express": "^3.8.2",
-    "cookie-parser": "^1.4.6",
-    "express": "^4.18.1",
-    "googleapis": "^101.0.0",
-    "graphql": "^16.5.0",
-    "lodash.merge": "^4.6.2",
-    "mongodb": "^4.6.0"
-  },
-  "devDependencies": {
-    "@types/cookie-parser": "^1.4.3",
-    "@types/express": "^4.17.13",
-    "@types/graphql": "^14.5.0",
-    "@types/mongodb": "^4.0.7",
-    "@types/node": "^17.0.39",
-    "@typescript-eslint/eslint-plugin": "^5.27.0",
-    "@typescript-eslint/parser": "^5.27.0",
-    "dotenv": "^16.0.1",
-    "eslint": "^8.17.0",
-    "nodemon": "^2.0.16",
-    "ts-node": "^10.8.1",
-    "typescript": "^4.7.3"
-  },
-  "scripts": {
-    "seed": "ts-node temp/seed.ts",
-    "cleardb": "ts-node temp/cleardb.ts",
-    "build": "tsc -p ./",
-    "start": "nodemon src/index.ts"
-  }
+    "name": "grandrealestate-v1-server",
+    "version": "0.1.0",
+    "description": "",
+    "scripts": {
+        "start": "nodemon src/index.ts",
+        "build": "tsc -p ./",
+        "seed": "ts-node temp/seed.ts",
+        "clear": "ts-node temp/clear.ts",
+        "prettier": "prettier --write ."
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "@graphql-tools/utils": "^8.6.13",
+        "apollo-server-express": "^3.8.2",
+        "body-parser": "^1.20.0",
+        "cookie-parser": "^1.4.6",
+        "express": "^4.18.1",
+        "googleapis": "^101.0.0",
+        "graphql": "^16.5.0",
+        "graphql-tools": "^8.2.12",
+        "lodash.merge": "^4.6.2",
+        "moment": "^2.29.3",
+        "mongodb": "^4.7.0"
+    },
+    "devDependencies": {
+        "@types/body-parser": "^1.19.2",
+        "@types/cookie-parser": "^1.4.3",
+        "@types/dotenv": "^8.2.0",
+        "@types/express": "4.17.13",
+        "@types/graphql": "^14.5.0",
+        "@types/lodash.merge": "^4.6.7",
+        "@types/mongodb": "^4.0.7",
+        "@types/node": "^17.0.42",
+        "@types/ws": "^8.5.3",
+        "@typescript-eslint/eslint-plugin": "^5.27.1",
+        "@typescript-eslint/parser": "^5.27.1",
+        "dotenv": "^16.0.1",
+        "eslint": "^8.17.0",
+        "nodemon": "^2.0.16",
+        "prettier": "^2.6.2",
+        "ts-node": "^10.8.1",
+        "typescript": "^4.7.3"
+    },
+    "eslintConfig": {
+        "env": {
+            "browser": true,
+            "node": true
+        }
+    }
 }

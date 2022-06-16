@@ -1,31 +1,30 @@
-import "dotenv/config"
-import express, { Application } from "express"
-import { ApolloServer } from "apollo-server-express"
-import { typeDefs, resolvers } from "./graphql"
-import { connectDatabase } from "./database"
-import cookieParser from "cookie-parser"
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+require("dotenv").config();
 
-const mount = async (app: Application) => {
-  const db = await connectDatabase()
-  const server = new ApolloServer({
-    typeDefs,
-    resolvers,
-    context: ({ req, res }) => ({ db, req, res }),
-  })
+import express, { Application } from "express";
+import { ApolloServer } from "apollo-server-express";
+import cookieParser from "cookie-parser";
+import { connectDatabase } from "./database";
+import { typeDefs, resolvers } from "./graphql";
 
-  app.use(cookieParser(process.env.SECRET))
+const port = process.env.PORT;
 
-  //giving an await server.start() error so used below to fixed it.
-  server.start().then((res) => {
-    server.applyMiddleware({ app, path: "/api" })
-  })
+async function mount(app: Application) {
+    const db = await connectDatabase();
 
-  app.listen(process.env.PORT)
+    app.use(cookieParser(process.env.SECRET));
 
-  console.log(`[app]: http://localhost:${process.env.PORT}`)
+    const server = new ApolloServer({
+        typeDefs,
+        resolvers,
+        context: ({ req, res }) => ({ db, req, res }),
+    });
+    await server.start();
+    server.applyMiddleware({ app, path: "/api" });
 
-  // const listings = await db.listings.find({}).toArray()
-  // console.log(listings)
+    app.listen(port);
+
+    console.log(`[app]: http://localhost:${port}`);
 }
 
-mount(express())
+mount(express());

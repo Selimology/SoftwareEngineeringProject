@@ -1,14 +1,14 @@
 {
-  "parser": "@typescript-eslint/parser",
-  "parserOptions": {
-    "sourceType": "module",
-    "ecmaVersion": "latest"
-  },
-  "extends": ["plugin:@typescript-eslint/recommended"],
-  "env": { "node": true }, // node environment, will notice node specific terms
-  "rules": {
-    "@typescript-eslint/indent": "off",
-    "indent": "off",
-    "@typescript-eslint/explicit-function-return-type": "off"
-  }
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaVersion": 2018,
+        "sourceType": "module"
+    },
+    "extends": ["plugin:@typescript-eslint/recommended"],
+    "env": { "node": true },
+    "rules": {
+        "indent": "off",
+        "@typescript-eslint/indent": "off",
+        "@typescript-eslint/explicit-function-return-type": "off"
+    }
 }
